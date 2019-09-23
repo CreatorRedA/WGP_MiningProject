@@ -323,6 +323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2716274452a24c940856d547be375ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bronzeCubePrefab: {fileID: 3372556834139271839, guid: 8c452758c05dd7b4cb46f3e78f9a7109,
+    type: 3}
+  silverCubePrefab: {fileID: 3372556834139271839, guid: 467e58bd6f4e8d34d9f84582d7fa88c0,
+    type: 3}
 --- !u!4 &1234265288
 Transform:
   m_ObjectHideFlags: 0

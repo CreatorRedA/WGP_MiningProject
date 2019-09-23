@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    int notifications;
     float miningSpeed;
     int bronzeSupply;
     int bronze;
     int silverSupply;
     int silver;
+
+    //public makes the variable available to other scripts and visible in editor
+    public GameObject bronzeCubePrefab;
+    public GameObject silverCubePrefab;
+    int xPos = 0;
+
+    void CreateCube(Vector3 cubePosition, GameObject cubePrefab) //Function CreateCube accepts a Vector3 called cubePosition and a GameObject called cubePrefab
+    {
+        Instantiate(cubePrefab, cubePosition, Quaternion.identity); //Create cube
+        xPos += 2;
+        miningSpeed += 3; //Keeps miningSpeed in time with Time.time
+        print("Time.time = " + (Time.time) + "\nYour bronze: " + bronze + " AND Your silver: " + silver);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +41,7 @@ public class GameController : MonoBehaviour
         {
             bronzeSupply--;
             bronze++;
-            miningSpeed += 3; //Keeps miningSpeed in time with Time.time
-            print("Time.time = " + (Time.time) + "\nYour bronze: " + bronze + " AND Your silver: " + silver);
+            CreateCube(new Vector3(xPos, 0, 0), bronzeCubePrefab);
         }
 
         //If availabe, mine silver
@@ -38,8 +49,7 @@ public class GameController : MonoBehaviour
         {
             silverSupply--;
             silver++;
-            miningSpeed += 3;
-            print("Time.time = " + (Time.time) + "\nYour bronze: " + bronze + " AND Your silver: " + silver + "\n Time.time = " + (Time.time));
+            CreateCube(new Vector3(xPos, -2, 0), silverCubePrefab);
         }
 
     }
