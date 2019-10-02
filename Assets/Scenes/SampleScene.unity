@@ -327,6 +327,8 @@ MonoBehaviour:
     type: 3}
   silverCubePrefab: {fileID: 3372556834139271839, guid: 467e58bd6f4e8d34d9f84582d7fa88c0,
     type: 3}
+  goldCubePrefab: {fileID: 3372556834139271839, guid: 923556d303b7c6148a694f30be952439,
+    type: 3}
 --- !u!4 &1234265288
 Transform:
   m_ObjectHideFlags: 0
