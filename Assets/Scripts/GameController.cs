@@ -5,25 +5,36 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     float miningSpeed;
-    int bronzeSupply;
-    int bronzeScore;
-    int silverSupply;
-    int silverScore;
-    int goldSupply;
-    int goldScore;
+    public static int bronzeSupply; //Static prevents Unity from making copies of this variable (prefab replicas)
+    public static int silverSupply;
+    public static int goldSupply;
+    public static int bronzeScore;
+    public static int silverScore;
+    public static int goldScore;
 
     //public makes the variable available to other scripts and visible in editor
     public GameObject bronzeCubePrefab;
     public GameObject silverCubePrefab;
     public GameObject goldCubePrefab;
-    int xPos = 0;
+    GameObject myCube;
+    int xPos = -10;
+    int rowCount = 0;
 
-    void CreateCube(Vector3 cubePosition, GameObject cubePrefab) //Function CreateCube accepts a Vector3 called cubePosition and a GameObject called cubePrefab
+    void CreateCube(GameObject cubePrefab, Vector3 cubePosition, int ore) //Function CreateCube accepts a Vector3 called cubePosition and a GameObject called cubePrefab
     {
-        Instantiate(cubePrefab, cubePosition, Quaternion.identity); //Create cube
+        myCube = Instantiate(cubePrefab, cubePosition, Quaternion.identity); //Create cube
+        myCube.GetComponent<CubeController>().oreType = ore; //Set oreType inside CubeController script on myCube that we just instantiated
+        miningSpeed += 2; //Keeps miningSpeed in time with Time.time
+        print("Time.time = " + (Time.time) + "\nBronze supply: " + bronzeSupply + " Silver supply: " + silverSupply + " Gold supply: " + goldSupply + " xPos = " + xPos);
         xPos += 2;
-        miningSpeed += 3; //Keeps miningSpeed in time with Time.time
-        print("Time.time = " + (Time.time) + "\nBronze supply: " + bronzeSupply + " Silver supply: " + silverSupply + " Gold supply: " + goldSupply);
+
+        //Resets rows by 4 (unless cubes are mined at uneven pace)
+        rowCount++;
+        if(rowCount == 4)
+        {
+            xPos = -10;
+            rowCount = 0;
+        }
     }
 
     // Start is called before the first frame update
@@ -45,22 +56,20 @@ public class GameController : MonoBehaviour
 
         if ((Time.time) >= miningSpeed && bronzeSupply == 2 && silverSupply == 2)
         {
+            CreateCube(goldCubePrefab, new Vector3(xPos, 0, 0), 3);
             goldSupply++;
-            CreateCube(new Vector3(xPos, -4, 0), goldCubePrefab);
         }
 
         else if ((Time.time) >= miningSpeed && bronzeSupply >= 4)
         {
+            CreateCube(silverCubePrefab, new Vector3(xPos, 2, 0), 2);
             silverSupply++;
-            CreateCube(new Vector3(xPos, -2, 0), silverCubePrefab);
         }
 
         else if ((Time.time) >= miningSpeed && bronzeSupply < 4)
         {
+            CreateCube(bronzeCubePrefab, new Vector3(xPos, 4, 0), 1);
             bronzeSupply++;
-            CreateCube(new Vector3(xPos, 0, 0), bronzeCubePrefab);
         }
-
-
     }
 }
